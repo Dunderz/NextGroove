@@ -9,6 +9,8 @@ import { BiSearch } from "react-icons/bi";
 import { FaUserAlt } from "react-icons/fa";
 import { toast } from "react-hot-toast";
 
+import Button from "./Button";
+
 interface HeaderProps {
   children: React.ReactNode;
   className?: string;
@@ -23,7 +25,7 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
         className
       )}
     >
-      <div className="w-full mb-4 items-center justify-between">
+      <div className="w-full mb-4 flex items-center justify-between">
         <div className="hidden md:flex gap-x-2 items-center">
           <button className="flex rounded-full bg-black items-center justify-center hover:opacity-75 transition">
             <RxCaretLeft className="text-white" size={35} />
@@ -40,7 +42,18 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
             <BiSearch className="text-black" size={20} />
           </button>
         </div>
-        <div></div>
+        <div className="flex justify-between items-center gap-x-4">
+          <>
+            <div className="flex">
+              <div>
+                <Button></Button>
+              </div>
+              <div>
+                <Button></Button>
+              </div>
+            </div>
+          </>
+        </div>
       </div>
       {children}
     </div>
