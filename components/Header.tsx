@@ -24,6 +24,18 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
 
+  const handleLogout = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    router.refresh();
+
+    if (error) {
+      toast.error("An error occurred while logging out.");
+    } else {
+      toast.success("Successfully logged out.");
+    }
+  };
+
   return (
     <div
       className={twMerge(
@@ -56,9 +68,11 @@ const Header: React.FC<HeaderProps> = ({ children, className }) => {
         </div>
         <div className="flex justify-between items-center gap-x-4">
           {user ? (
-            <div>
-              <Button>Logout</Button>
-              <Button>
+            <div className="flex gap-x-4">
+              <Button className="bg-white px-6 py-2" onClick={handleLogout}>
+                Logout
+              </Button>
+              <Button className="bg-white">
                 <FaUserAlt />
               </Button>
             </div>
