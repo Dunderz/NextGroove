@@ -32,8 +32,8 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
         />
       </div>
       <div>
-        <p>{data.title}</p>
-        <p>{data.author}</p>
+        <p></p>
+        <p></p>
       </div>
     </div>
   );
