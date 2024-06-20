@@ -25,6 +25,13 @@ const useGetSongById = (id: string) => {
         setIsLoading(false);
         return toast.error(error.message);
       }
+
+      setSong(data as Song);
+      setIsLoading(false);
     };
-  });
+
+    fetchSong();
+  }, [id, supabaseClient]);
 };
+
+export default useGetSongById;
