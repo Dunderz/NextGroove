@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ["kxigvxqpwfrulirieurg.supabase.co"],
+  },
   webpack: (config, _) => ({
     ...config,
     watchOptions: {
