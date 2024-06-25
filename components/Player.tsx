@@ -17,7 +17,7 @@ const Player = () => {
 
   return (
     <div>
-      <PlayerContent />
+      <PlayerContent key={songUrl} song={song} songUrl={songUrl} />
     </div>
   );
 };
