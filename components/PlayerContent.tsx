@@ -92,7 +92,37 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     }
   };
 
-  return <div>PlayerContent</div>;
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 h-full">
+      <div className="flex w-full justify-start">
+        <div className="flex items-center gap-x-4">
+          <MediaItem data={song} />
+          <LikeButton />
+        </div>
+      </div>
+
+      <div>
+        <div>
+          <Icon />
+        </div>
+      </div>
+
+      <div>
+        <AiFillStepBackward />
+        <div>
+          <Icon />
+        </div>
+        <AiFillStepForward />
+      </div>
+
+      <div>
+        <div>
+          <VolumeIcon />
+          <Slider />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default PlayerContent;
