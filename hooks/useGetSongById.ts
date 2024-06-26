@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 
 import { Song } from "@/types";
 
-const useGetSongById = (id: string) => {
+const useGetSongById = (id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [song, setSong] = useState<Song | undefined>(undefined);
   const { supabaseClient } = useSessionContext();
@@ -32,6 +32,8 @@ const useGetSongById = (id: string) => {
 
     fetchSong();
   }, [id, supabaseClient]);
+
+  return useMemo(() => ({ isLoading, song }), [isLoading, song]);
 };
 
 export default useGetSongById;
