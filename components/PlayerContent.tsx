@@ -133,7 +133,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         <div className="flex items-center gap-x-2 w-[120px]">
           <VolumeIcon
             onClick={toggleMute}
-            className="cursor-pointer"
+            className="cursor-pointer text-white"
             size={34}
           />
           <Slider />
