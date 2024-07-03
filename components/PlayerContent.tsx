@@ -23,6 +23,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -71,8 +72,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   useEffect(() => {
     sound?.play();
 
+    const interval = setInterval(() => {
+      if (sound.playing()) {
+        const duration = sound.duration();
+        const seek = sound.seek();
+        setProgress((seek / duration) * 100);
+      }
+    }, 1000); // Update every second
+
     return () => {
       sound?.unload();
+      clearInterval(interval);
     };
   }, [sound]);
 
@@ -109,24 +119,26 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
           <Icon size={30} className="text-black" />
         </div>
       </div>
-
-      <div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6">
-        <AiFillStepBackward
-          onClick={onPlayPrevious}
-          size={30}
-          className="text-neutral-400 cursor-pointer hover:text-white transition"
-        />
-        <div
-          onClick={handlePlay}
-          className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
-        >
-          <Icon size={30} className="text-black" />
+      <div className="flex flex-col justify-center items-start">
+        <div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6">
+          <AiFillStepBackward
+            onClick={onPlayPrevious}
+            size={30}
+            className="text-neutral-400 cursor-pointer hover:text-white transition"
+          />
+          <div
+            onClick={handlePlay}
+            className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
+          >
+            <Icon size={30} className="text-black" />
+          </div>
+          <AiFillStepForward
+            onClick={onPlayNext}
+            size={30}
+            className="text-neutral-400 cursor-pointer hover:text-white transition"
+          />
         </div>
-        <AiFillStepForward
-          onClick={onPlayNext}
-          size={30}
-          className="text-neutral-400 cursor-pointer hover:text-white transition"
-        />
+        <div className="m-auto">{progress}</div>
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">
