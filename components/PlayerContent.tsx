@@ -10,6 +10,7 @@ import { Song } from "@/types";
 import Slider from "./Slider";
 import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
+import ProgressBar from "./ProgressBar";
 import usePlayer from "@/hooks/usePlayer";
 
 import useSound from "use-sound";
@@ -23,7 +24,6 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -72,17 +72,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   useEffect(() => {
     sound?.play();
 
-    const interval = setInterval(() => {
-      if (sound.playing()) {
-        const duration = sound.duration();
-        const seek = sound.seek();
-        setProgress((seek / duration) * 100);
-      }
-    }, 1000); // Update every second
-
     return () => {
       sound?.unload();
-      clearInterval(interval);
     };
   }, [sound]);
 
@@ -138,7 +129,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             className="text-neutral-400 cursor-pointer hover:text-white transition"
           />
         </div>
-        <div className="m-auto">{progress}</div>
+        <ProgressBar />
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">

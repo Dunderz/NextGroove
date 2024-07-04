@@ -14,3 +14,12 @@ export interface UserDetails {
   full_name?: string;
   avatar_url?: string;
 }
+
+export interface Sound {
+  play: () => void;
+  pause: () => void;
+  stop: () => void;
+  volume: (value?: number) => void | number;
+  rate: (value?: number) => void | number;
+  seek: (value?: number) => void | number;
+}
