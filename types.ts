@@ -22,4 +22,6 @@ export interface Sound {
   volume: (value?: number) => void | number;
   rate: (value?: number) => void | number;
   seek: (value?: number) => void | number;
+  duration: () => number;
+  playing: () => void | boolean;
 }

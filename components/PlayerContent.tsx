@@ -24,6 +24,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
   const [volume, setVolume] = useState(1);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -70,9 +72,24 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   });
 
   useEffect(() => {
+    // Start playing the sound
     sound?.play();
 
+    // Set up an interval to update the current time every second
+    const interval = setInterval(() => {
+      if (sound?.playing()) {
+        const duration = sound.duration();
+        setDuration(duration);
+        setCurrentTime(sound.seek());
+      }
+    }, 1000);
+
+    // Clean up when the component is unmounted or when the `sound` object changes
     return () => {
+      // Stop the interval
+      clearInterval(interval);
+
+      // Unload the sound
       sound?.unload();
     };
   }, [sound]);
@@ -114,22 +131,26 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         <div className="hidden h-full md:flex justify-center items-center w-full max-w-[722px] gap-x-6">
           <AiFillStepBackward
             onClick={onPlayPrevious}
-            size={30}
+            size={24}
             className="text-neutral-400 cursor-pointer hover:text-white transition"
           />
           <div
             onClick={handlePlay}
-            className="flex items-center justify-center h-10 w-10 rounded-full bg-white p-1 cursor-pointer"
+            className="flex items-center justify-center h-8 w-8 rounded-full bg-white p-1 cursor-pointer"
           >
-            <Icon size={30} className="text-black" />
+            <Icon size={24} className="text-black" />
           </div>
           <AiFillStepForward
             onClick={onPlayNext}
-            size={30}
+            size={24}
             className="text-neutral-400 cursor-pointer hover:text-white transition"
           />
         </div>
-        <ProgressBar />
+        <ProgressBar
+          sound={sound}
+          duration={duration}
+          currentTime={currentTime}
+        />
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">
