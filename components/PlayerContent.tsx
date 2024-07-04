@@ -10,7 +10,7 @@ import { Song } from "@/types";
 import Slider from "./Slider";
 import LikeButton from "./LikeButton";
 import MediaItem from "./MediaItem";
-import ProgressBar from "./ProgressBar";
+import Input from "./Input";
 import usePlayer from "@/hooks/usePlayer";
 
 import useSound from "use-sound";
@@ -26,6 +26,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
 
   const Icon = isPlaying ? BsPauseFill : BsPlayFill;
   const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -110,6 +111,18 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
     }
   };
 
+  const formatTime = (seconds: number): string => {
+    // Convert the seconds to minutes and remainder seconds
+    const minutes = Math.floor(seconds / 60);
+    const remainderSeconds = Math.floor(seconds % 60);
+
+    // Format the minutes and seconds as two-digits numbers
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(remainderSeconds).padStart(2, "0");
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
+
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">
@@ -146,11 +159,26 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             className="text-neutral-400 cursor-pointer hover:text-white transition"
           />
         </div>
-        <ProgressBar
-          sound={sound}
-          duration={duration}
-          currentTime={currentTime}
-        />
+        <div className="w-full flex justify-between">
+          <div className="w-20 text-left">{formatTime(currentTime)}</div>
+          <div className="w-full">
+            <Input
+              type="range"
+              min={0}
+              max={duration}
+              value={isDragging ? undefined : currentTime}
+              onMouseDown={() => setIsDragging(true)}
+              onMouseUp={() => setIsDragging(false)}
+              onChange={(e) => {
+                const newTime = Number(e.target.value);
+                setCurrentTime(newTime);
+                sound.seek(newTime);
+              }}
+              className="w-full h-1 bg-gray-200 rounded-none appearance-none dark:bg-gray-700"
+            />
+          </div>
+          <div className="w-20 text-right">{formatTime(duration)}</div>
+        </div>
       </div>
 
       <div className="hidden md:flex w-full justify-end pr-2">
