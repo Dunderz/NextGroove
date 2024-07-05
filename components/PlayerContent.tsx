@@ -126,7 +126,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 h-full">
       <div className="flex w-full justify-start">
-        <div className="flex items-center gap-x-4">
+        <div className="flex items-center gap-x-4 max-w-[188px]">
           <MediaItem data={song} />
           <LikeButton songId={song.id} />
         </div>
@@ -162,7 +162,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
         <div className="w-full flex justify-between">
           <div className="w-20 text-left">{formatTime(currentTime)}</div>
           <div className="w-full">
-            <Input
+            <input
               type="range"
               min={0}
               max={duration}
@@ -174,7 +174,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
                 setCurrentTime(newTime);
                 sound.seek(newTime);
               }}
-              className="w-full h-1 bg-gray-200 rounded-none appearance-none dark:bg-gray-700"
+              className="w-full h-1 bg-gray-200 rounded-none dark:bg-gray-700"
             />
           </div>
           <div className="w-20 text-right">{formatTime(duration)}</div>
