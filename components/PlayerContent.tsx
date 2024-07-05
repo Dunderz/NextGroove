@@ -159,7 +159,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             className="text-neutral-400 cursor-pointer hover:text-white transition"
           />
         </div>
-        <div className="w-full flex justify-between">
+        <div className="w-full hidden md:flex justify-between">
           <div className="w-20 text-left">{formatTime(currentTime)}</div>
           <div className="w-full">
             <input
