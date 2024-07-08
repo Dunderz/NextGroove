@@ -17,7 +17,3 @@ input[type="range"]::-webkit-slider-thumb {
 input[type="range"]::-moz-range-thumb {
   @apply bg-neutral-50 h-3 w-3 rounded-full cursor-pointer;
 }
-
-input[type="range"]::-webkit-progress-value {
-  background: #27a008; /* dark:bg-gray-700 */
-}
