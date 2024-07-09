@@ -24,7 +24,7 @@ const UploadModal = () => {
   const { register, handleSubmit, reset } = useForm<FieldValues>({
     defaultValues: {
       title: "",
-      author: "",
+      artist: "",
       song: null,
       image: null,
     },
@@ -50,6 +50,29 @@ const UploadModal = () => {
       }
 
       const uniqueID = uniqid();
+
+      // Check if the artist exists
+      let { data: artist, error: artistError } = await supabaseClient
+        .from("artists")
+        .select("id")
+        .ilike("artist_name", values.artist)
+        .single();
+
+      // If the artist doesn't exist, create a new artist
+      if (!artist && !artistError) {
+        const result = await supabaseClient
+          .from("artists")
+          .insert([{ artist_name: values.artist }])
+          .single();
+
+        artist = result.data;
+        artistError = result.error;
+      }
+
+      if (artistError) {
+        setIsLoading(false);
+        return toast.error("Failed to create artist");
+      }
 
       // Upload song
       const { data: songData, error: songError } = await supabaseClient.storage
@@ -82,7 +105,7 @@ const UploadModal = () => {
         .insert({
           user_id: user?.id,
           title: values.title,
-          author: values.author,
+          artist: values.artist,
           image_path: imageData.path,
           song_path: songData.path,
         });
@@ -119,10 +142,10 @@ const UploadModal = () => {
           placeholder="Song title"
         />
         <Input
-          id="author"
+          id="artist"
           disabled={isLoading}
-          {...register("author", { required: true })}
-          placeholder="Song author"
+          {...register("artist", { required: true })}
+          placeholder="Song artist"
         />
         <div>
           <div className="pb-1">Select a song file</div>
