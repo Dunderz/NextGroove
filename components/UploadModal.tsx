@@ -65,7 +65,6 @@ const UploadModal = () => {
 
       // If the artist doesn't exist, create a new artist
       if (!artist && !artistError) {
-        console.log(artist);
         const result = await supabaseClient
           .from("artists")
           .insert([{ artist_name: values.artist }])
@@ -73,12 +72,10 @@ const UploadModal = () => {
 
         artist = result.data;
         artistError = result.error;
-        console.log("inside the if block");
       }
 
       if (artistError) {
         setIsLoading(false);
-        console.log(artistError);
         return toast.error("Failed to create artist");
       }
 
@@ -122,7 +119,6 @@ const UploadModal = () => {
 
       if (supabaseError) {
         setIsLoading(false);
-        console.log(supabaseError);
         return toast.error("Failed to upload song");
       }
 
