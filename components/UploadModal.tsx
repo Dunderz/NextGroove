@@ -58,6 +58,11 @@ const UploadModal = () => {
         .ilike("artist_name", values.artist)
         .single();
 
+      // Handle no artist found error
+      if (artistError && artistError.code === "PGRST116") {
+        artistError = null; // Reset error as it's an expected outcome
+      }
+
       // If the artist doesn't exist, create a new artist
       if (!artist && !artistError) {
         const result = await supabaseClient
@@ -67,10 +72,12 @@ const UploadModal = () => {
 
         artist = result.data;
         artistError = result.error;
+        console.log("inside the if block");
       }
 
       if (artistError) {
         setIsLoading(false);
+        console.log(artistError);
         return toast.error("Failed to create artist");
       }
 
