@@ -2,7 +2,13 @@
 
 import uniqid from "uniqid";
 import toast from "react-hot-toast";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import Select from "react-select";
+import {
+  FieldValues,
+  SubmitHandler,
+  useForm,
+  Controller,
+} from "react-hook-form";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -21,7 +27,7 @@ const UploadModal = () => {
   const supabaseClient = useSupabaseClient();
   const router = useRouter();
 
-  const { register, handleSubmit, reset } = useForm<FieldValues>({
+  const { register, handleSubmit, reset, control } = useForm<FieldValues>({
     defaultValues: {
       title: "",
       artist: "",
@@ -140,6 +146,20 @@ const UploadModal = () => {
       onChange={onChange}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
+        <Controller
+          name="artist"
+          control={control}
+          defaultValue=""
+          render={({ field }) => (
+            <Select
+              {...field}
+              options={[
+                { value: "artist1", label: "Artist 1" },
+                { value: "artist2", label: "Artist 2" },
+              ]}
+            />
+          )}
+        />
         <Input
           id="title"
           disabled={isLoading}
