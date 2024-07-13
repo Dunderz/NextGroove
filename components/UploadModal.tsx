@@ -166,12 +166,6 @@ const UploadModal = () => {
           {...register("title", { required: true })}
           placeholder="Song title"
         />
-        <Input
-          id="artist"
-          disabled={isLoading}
-          {...register("artist", { required: true })}
-          placeholder="Song artist"
-        />
         <div>
           <div className="pb-1">Select a song file</div>
           <Input
