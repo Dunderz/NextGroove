@@ -146,6 +146,12 @@ const UploadModal = () => {
       onChange={onChange}
     >
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-y-4">
+        <Input
+          id="title"
+          disabled={isLoading}
+          {...register("title", { required: true })}
+          placeholder="Song title"
+        />
         <Controller
           name="artist"
           control={control}
@@ -153,18 +159,9 @@ const UploadModal = () => {
           render={({ field }) => (
             <Select
               {...field}
-              options={[
-                { value: "artist1", label: "Artist 1" },
-                { value: "artist2", label: "Artist 2" },
-              ]}
+              options={[{ value: "artist1", label: "Artist 1" }]}
             />
           )}
-        />
-        <Input
-          id="title"
-          disabled={isLoading}
-          {...register("title", { required: true })}
-          placeholder="Song title"
         />
         <div>
           <div className="pb-1">Select a song file</div>
