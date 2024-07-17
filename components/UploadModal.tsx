@@ -159,7 +159,10 @@ const UploadModal = () => {
           render={({ field }) => (
             <Select
               {...field}
-              options={[{ value: "artist1", label: "Artist 1" }]}
+              options={[
+                { value: "artist1", label: "Artist 1" },
+                { value: "artist2", label: "Artist 2" },
+              ]}
             />
           )}
         />
