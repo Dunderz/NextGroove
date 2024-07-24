@@ -162,6 +162,7 @@ const UploadModal = () => {
               options={[
                 { value: "artist1", label: "Artist 1" },
                 { value: "artist2", label: "Artist 2" },
+                { value: "artist3", label: "Artist 3" },
               ]}
             />
           )}
