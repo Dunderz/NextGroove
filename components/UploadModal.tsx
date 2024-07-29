@@ -169,6 +169,11 @@ const UploadModal = () => {
             />
           )}
         />
+        <div className="m-0 p-0">
+          <p className="text-xs text-cyan-500 hover:text-cyan-600 inline-block">
+            Artist not listed? Add a new one!
+          </p>
+        </div>
         <div>
           <div className="pb-1">Select a song file</div>
           <Input
