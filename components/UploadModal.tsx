@@ -167,6 +167,7 @@ const UploadModal = () => {
                 { value: "artist5", label: "Artist 5" },
                 { value: "artist6", label: "Artist 6" },
                 { value: "artist7", label: "Artist 7" },
+                { value: "artist8", label: "Artist 8" },
               ]}
             />
           )}
